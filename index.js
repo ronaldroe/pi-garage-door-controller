@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 80;
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-let db = mongoose.connect('mongodb://localhost/flower_moxie', {
+let db = mongoose.connect('mongodb://localhost/pi-garage-controller', {
   useMongoClient: true
 });
 db.once('open', () => console.log('Connected to DB'));
