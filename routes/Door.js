@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
       input: req.body.input,
       output: req.body.output
     },
-    currentState: 0
+    state: 0
   });
 
   newDoor.save((err, data) => {

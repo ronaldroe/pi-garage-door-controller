@@ -6,7 +6,7 @@ const doorStateSchema = mongoose.Schema({
     input: Number,
     output: Number
   },
-  currentState: Number, // 0=unknown, 1=moving, 2=down, 3=up
+  state: Number, // 0=unknown, 1=moving, 2=down, 3=up
 }, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});
 
 let DoorState = module.exports = mongoose.model('DoorState', doorStateSchema);
