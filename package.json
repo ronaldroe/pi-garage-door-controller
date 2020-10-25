@@ -2,9 +2,10 @@
   "name": "garage_controller",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,10 @@
     "express": "^4.17.1",
     "mongoose": "^4.13.21",
     "passport-local": "^1.0.0",
-    "pigpio": "^3.2.4"
+    "pigpio": "^3.2.4",
+    "yargs": "^16.1.0"
+  },
+  "devDependencies": {
+    "node-sass-chokidar": "^1.5.0"
   }
 }

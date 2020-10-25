@@ -1,3 +1,4 @@
 {
-  "settings": "will go here"
+  "db_address": "mongodb://localhost/pi-garage-controller",
+  "door_move_timeout": 30
 }

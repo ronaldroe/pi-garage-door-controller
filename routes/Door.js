@@ -71,7 +71,7 @@ router.post('/', (req, res) => {
 // Update door by id
 router.put('/id/:id', (req, res) => {
 
-  Door.findOne({_id: ObjId(req.params.id)});
+  Door.findOne({_id: ObjId(req.params.id)})
   .then(data => {
 
     data = {
@@ -95,3 +95,5 @@ router.put('/id/:id', (req, res) => {
   });
 
 });
+
+module.exports = router;

@@ -1,12 +1,15 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 80;
+const path = require('path');
+const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const settings = require('./settings.json');
 
-let db = mongoose.connect('mongodb://localhost/pi-garage-controller', {
+let db = mongoose.connect(settings.db_address, {
   useMongoClient: true
 });
+
 db.once('open', () => console.log('Connected to DB'));
 db.on('error', err => { if (err) console.log(err) });
 app.use(express.static(__dirname + '/views'));
@@ -27,26 +30,26 @@ app.options('/*', (req, res) => {
 });
 
 // Main page with status of all doors and controls
-const doors = require('./routes/Doors');
-app.use('/', );
+// const doors = require('./routes/Doors');
+// app.use('/', );
 
 // Individual page with door status and controls
 const door = require('./routes/Door');
-app.use('/door', );
+app.use('/door', door);
 
 // Get door current status
-const status = require('./routes/Status');
-app.use('/status', );
+// const status = require('./routes/Status');
+// app.use('/status', status);
 
 // Move door from current state
-const move = require('./routes/Move');
-app.use('/move', );
+// const move = require('./routes/Move');
+// app.use('/move', move);
 
 // Move door if down, return state if already up
-const up = require('./routes/Up');
-app.use('/up', );
+// const up = require('./routes/Up');
+// app.use('/up', up);
 
 // Move door if up, return state if already down
-const down = require('./routes/Down');
-app.use('/down', );
+// const down = require('./routes/Down');
+// app.use('/down', down);
 
