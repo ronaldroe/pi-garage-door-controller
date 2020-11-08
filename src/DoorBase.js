@@ -1,4 +1,4 @@
-const pigpio = require('pigpio');
+const gpio = require('pigpio').Gpio;
 const settings = require('./settings.json');
 
 /**
@@ -13,6 +13,8 @@ class DoorBase{
   constructor(doorInput){
     this.door = doorInput;
     this.state = this.getState(); // 0=unknown, 1=down, 2=up, 3=moving
+    this.input = new gpio(this.door.input);
+    this.output = new gpio(this.door.output);
   }
 
   /**
@@ -28,6 +30,10 @@ class DoorBase{
 
     this.state = 3;
 
+    this.timeout(() => {
+      let pollInterval = setInterval(this.getState(), 500);
+    }, settings.timeout)
+
     return new Promise((res, rej) => {
       let status = this.state - oldState;
       this.state = status;
@@ -41,13 +47,24 @@ class DoorBase{
 
   }
 
+  /**
+   * Checks pins to determine state
+   * 
+   * @returns door object after updating state
+   */
   public getState(){
-
+    // Poll pins to get state
   }
 
-  private async function timeout(time){
+  /**
+   * Timeout helper function
+   */
+  private async function timeout(method, time, args){
 
-    
+    return new Promise((res, rej) => {
+      method(Array.isArray(args) ? ...args : null);
+      setTimeout(() => res(true), time);
+    });
 
   }
 
