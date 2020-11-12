@@ -13,8 +13,10 @@ class DoorBase{
   constructor(doorInput){
     this.door = doorInput;
     this.state = this.getState(); // 0=unknown, 1=down, 2=up, 3=moving
-    this.input = new gpio(this.door.input);
-    this.output = new gpio(this.door.output);
+    this.pinUp = new gpio(this.door.pinUp);
+    this.pinDown = new gpio(this.door.pinDown);
+    this.pinNeutral = new gpio(this.door.pinNeutral);
+    this.timeout = 
   }
 
   /**

@@ -5,6 +5,4 @@ function getUrlParameter(name) {
   return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-export {
-  getUrlParameter
-};
+module.exports = getUrlParameter;
