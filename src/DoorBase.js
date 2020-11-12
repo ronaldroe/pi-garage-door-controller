@@ -16,7 +16,6 @@ class DoorBase{
     this.pinUp = new gpio(this.door.pinUp);
     this.pinDown = new gpio(this.door.pinDown);
     this.pinNeutral = new gpio(this.door.pinNeutral);
-    this.timeout = 
   }
 
   /**
