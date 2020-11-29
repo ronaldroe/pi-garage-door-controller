@@ -33,7 +33,7 @@ router.get('/name/:name', (req, res) => {
 
     return data;
   })
-  .catch(err => res.send(`There was an error pulling the door\'s data: ${err.message}`));
+  .catch(err => res.send(`There was an error pulling the door's data: ${err.message}`));
 
 });
 

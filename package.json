@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^4.13.21",
     "passport-local": "^1.0.0",
     "pigpio": "^3.2.4",
     "yargs": "^16.1.0"

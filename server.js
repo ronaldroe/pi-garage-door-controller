@@ -3,15 +3,9 @@ const app = express();
 const path = require('path');
 const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const settings = require('./settings.json');
 
-let db = mongoose.connect(settings.db_address, {
-  useMongoClient: true
-});
 
-db.once('open', () => console.log('Connected to DB'));
-db.on('error', err => { if (err) console.log(err) });
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(PORT, () => {
