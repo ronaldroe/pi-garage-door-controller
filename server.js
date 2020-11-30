@@ -12,9 +12,6 @@ app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
 });
 
-let DoorState = require('./models/doorState');
-let StateChange = require('./models/stateChange');
-
 // Reply to options requests
 app.options('/*', (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');

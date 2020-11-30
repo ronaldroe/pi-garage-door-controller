@@ -1,4 +1,6 @@
 [
-  "[Sat Nov 28 2020 21:19:27 GMT+0000 (Greenwich Mean Time)] - State updated: {\"baz\":\"bat\"}",
-  "[Sat Nov 28 2020 21:19:33 GMT+0000 (Greenwich Mean Time)] - State updated: {\"foo\":\"bar\"}"
+  {
+    "timestamp": 1606665093907,
+    "message": "State updated: {\"test\":\"test\"}"
+  }
 ]
