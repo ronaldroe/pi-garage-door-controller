@@ -1,6 +1,10 @@
 [
   {
-    "timestamp": 1606665093907,
-    "message": "State updated: {\"test\":\"test\"}"
+    "timestamp": 1609213943307,
+    "message": "Door [Big Door] initiated movement"
+  },
+  {
+    "timestamp": 1609213946873,
+    "message": "Door [Big Door] successfully moved down"
   }
 ]

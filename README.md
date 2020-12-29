@@ -2,7 +2,7 @@
 
 Control garage doors with a Raspberry Pi, including state monitoring via limit or reed switches.
 
-Built on a Pi Zero, using Node v11.15.0 and MongoDB v2.4.14.
+Built on a Pi Zero, using Node v11.15.0.
 
 ## Table of Contents
 

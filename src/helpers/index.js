@@ -1,5 +1,7 @@
 const isAbsolutePath = require('./isAbsolutePath');
+const sleep = require('./sleep');
 
 module.exports = {
-  isAbsolutePath: isAbsolutePath
+  isAbsolutePath: isAbsolutePath,
+  sleep: sleep
 };

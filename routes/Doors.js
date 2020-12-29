@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 
-const ObjId = mongoose.Types.ObjectId;
-
-const Doors = require('../models/doorState');
+const DoorBase = require(`${__dirname}/../src/DoorBase`);
 
 // Endpoint to get the doors
 router.get('/doors', (req, res) => {

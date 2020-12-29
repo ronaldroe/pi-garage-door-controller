@@ -1,6 +1,10 @@
 const gpio = require('pigpio').Gpio;
 const fs = require('fs');
 
+const settings = JSON.parse(fs.readFileSync(`${__dirname}/../settings.json`));
+
+const Store = require(`./${!settings.remote_data_url ? 'StaticLocalStore' : 'StaticRemoteStore'}`);
+const { sleep } = require('./helpers');
 
 /**
  * Base door object. 
@@ -11,90 +15,110 @@ const fs = require('fs');
  */
 class DoorBase{
   
-  constructor(doorInput){
-    this.settings = JSON.parse(fs.readFileSync(`${__dirname}/../settings.json`));
-    this.door = doorInput;
-    this.state = this.getState(); // 0=unknown, 1=down, 2=up, 3=moving
-    this.pinUp = new gpio(this.door.pinUp);
-    this.pinDown = new gpio(this.door.pinDown);
-    this.pinNeutral = new gpio(this.door.pinNeutral);
-    this.pinTrigger = new gpio(this.door.pinTrigger);
+  constructor(store, id){
+    this.store = store;
+    this.door = this.store.getDoorById(id || 0);
+    
+    this.pinUp = new gpio(this.door.pinUp, {mode: gpio.INPUT, pullUpDown: gpio.PUD_UP});
+    this.pinDown = new gpio(this.door.pinDown, {mode: gpio.INPUT, pullUpDown: gpio.PUD_UP});
+    this.pinTrigger = new gpio(this.door.pinTrigger, {mode: gpio.OUTPUT});
+    
+    this.status = this.getStatus();
+    this.statuses = ['unknown', 'down', 'up', 'moving'];
   }
 
   /**
    * Moves door regardless of current state
+   * 
+   * @returns Promise resolves to true if door moved successfully, rejects if not
    */
-  async public move(){
-    let oldState = this.state;
+  async move(){
+    let oldStatus = this.status;
 
     // code to initiate door move //
-    this.triggerDoor();
+    await this.triggerDoor();
     
-    // Pause for 3 seconds to let the door start moving
-    await this.sleep(3000);
+    // Pause for 2 seconds to let the door start moving
+    await sleep(2000);
     
-    this.state = 3;
+    this.status = 3;
     
     // Polls the door every half second to see if it has stopped moving. Continues until
     // the door stops or the timeout expires.
+    // This will fail, because we're using the reject to stop polling the door,
+    // so in the catch, we're just going to do nothing
     let canxToken = {};
-
-    await this.sleep((this.settings.door_move_timeout - 3000), canxToken, () => {
-      let pollInterval = setInterval(() => {
-        if(this.getState() !== 3) {
-          clearInterval(pollInterval);
-          canxToken.cancel();
-        }
-      }, this.settings.door_poll_interval);
-    });
+    try{
+      await sleep((settings.door_move_timeout - 2000), canxToken, () => {
+        let pollInterval = setInterval(() => {
+          if(this.getStatus() !== 3) {
+            clearInterval(pollInterval);
+            this.status = this.getStatus();
+            canxToken.cancel();
+          }
+        }, settings.door_poll_interval);
+      });
+    } catch(e){
+      // This is actually not a failure state
+    }
 
     return new Promise((res, rej) => {
-      let status = this.state - oldState;
-      this.state = status;
 
-      if(3 > status > 0){
+      if(3 > this.status > 0 && this.status !== oldStatus){
+        // this.store.updateState({status: this.status});
+        this.store.addLog(`Door [${this.door.name}] successfully moved ${this.statuses[this.status]}`);
         res(true);
       } else {
-        rej(new Error(`Door state is "${status === 3 ? 'moving' : 'unknown'}" after move operation`));
+        this.store.addLog(`Door [${this.door.name}] is in an unknown state`);
+        rej(new Error(`Door state is "${this.status === 3 ? 'moving' : this.status === oldStatus ? 'unchanged' : 'unknown'}" after move operation`));
       }
     });
 
   }
 
-  async public triggerDoor(){
+  /**
+   * Starts door movement
+   */
+  async triggerDoor(){
     // Trigger the door
+    this.pinTrigger.digitalWrite(0);
+
+    await sleep(1000);
+
+    this.pinTrigger.digitalWrite(1);
+    
+    this.store.addLog(`Door [${this.door.name}] initiated movement`);
+
+    return this;
   }
 
   /**
-   * Checks pins to determine state
+   * Checks pins to determine status
    * 
    * @returns integer 
    */
-  public getState(){
-    // Poll pins to get state
+  getStatus(){
+    let currentStatus = 3;
+
+    if(this.pinDown.digitalRead() === 0) currentStatus = 1;
+    if(this.pinUp.digitalRead() === 0) currentStatus = 2;
+
+    return currentStatus;
   }
 
   /**
-   * Timeout helper function
+   * Returns array of all configured doors
    * 
-   * @param number time - sleep time in milliseconds **Required**
-   * @param object canxToken - any object (may even be empty), which allows a cancel method to be called, which in turn causes the promise to be reject. 
-   *                           will cause an error, which should be caught
-   * @param function callback - function to call before setting the timeout
-   * @param array args - array of arguments to the callback. The array is spread into the callback.
-   * 
-   * @returns Promise, which resolves when the timeout is complete.
+   * @returns array
    */
-  private async function sleep(time, canxToken, callback, args){
+  static getAllDoors(store){
+    let doors = store.getState();
 
-    return new Promise((res, rej) => {
-      if(typeof canxToken !== 'undefined') canxToken.cancel = () => rej(new Error('canceled'));
-
-      if(typeof callback === 'function') callback(Array.isArray(args) ? ...args : null);
-
-      setTimeout(resolve, time);
+    doors.forEach((door, it) => {
+      doors[it] = new DoorBase(store, door.id);
     });
 
+    return doors;
   }
 
 }
