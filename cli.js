@@ -5,9 +5,14 @@ const { sleep } = require('./src/helpers');
 
 let store = new Store();
 
-// function to create user
-
 // function to create door
+const createDoor = doorInput => {
+  let oldState = store.getState();
+
+  oldState.push(doorInput);
+
+  store.setState(oldState);
+}
 
 // function to get status of door
 

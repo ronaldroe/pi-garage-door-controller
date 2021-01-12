@@ -1,18 +1,20 @@
-[
-  {
-    "id": 0,
-    "pinTrigger": 4,
-    "pinUp": 25,
-    "pinDown": 23,
-    "name": "Big Door",
-    "status": 1
-  },
-  {
-    "id": 1,
-    "pinTrigger": 17,
-    "pinUp": 0,
-    "pinDown": 0,
-    "name": "Little Door",
-    "status": 1 
-  }
-]
+{
+  "doors": [
+    {
+      "id": 0,
+      "pinTrigger": 4,
+      "pinUp": 25,
+      "pinDown": 23,
+      "name": "Big Door",
+      "status": 2
+    },
+    {
+      "id": 1,
+      "pinTrigger": 17,
+      "pinUp": 0,
+      "pinDown": 0,
+      "name": "Little Door",
+      "status": 1
+    }
+  ]
+}

@@ -65,11 +65,11 @@ class DoorBase{
     return new Promise((res, rej) => {
 
       if(3 > this.status > 0 && this.status !== oldStatus){
-        // this.store.updateState({status: this.status});
+        this.store.updateState(this.door.id, {status: this.status});
         this.store.addLog(`Door [${this.door.name}] successfully moved ${this.statuses[this.status]}`);
         res(true);
       } else {
-        this.store.addLog(`Door [${this.door.name}] is in an unknown state`);
+        this.store.addLog(`Door [${this.door.name}] is in an ${this.status === 3 ? 'moving' : this.status === oldStatus ? 'unchanged' : 'unknown'} state`);
         rej(new Error(`Door state is "${this.status === 3 ? 'moving' : this.status === oldStatus ? 'unchanged' : 'unknown'}" after move operation`));
       }
     });
@@ -112,7 +112,7 @@ class DoorBase{
    * @returns array
    */
   static getAllDoors(store){
-    let doors = store.getState();
+    let doors = store.getState().doors;
 
     doors.forEach((door, it) => {
       doors[it] = new DoorBase(store, door.id);

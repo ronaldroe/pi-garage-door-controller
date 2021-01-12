@@ -6,7 +6,7 @@ const fs = require('fs');
 let env = process.env;
 
 const PORT = env.PORT || 3000;
-const settings = JSON.parse(fs.readFileSync(`${__dirname}/../settings.json`));\
+const settings = JSON.parse(fs.readFileSync(`${__dirname}/settings.json`));
 
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(path.join(__dirname, 'public')));

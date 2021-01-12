@@ -1,10 +1,26 @@
 [
   {
-    "timestamp": 1609213943307,
+    "timestamp": 1609283997184,
     "message": "Door [Big Door] initiated movement"
   },
   {
-    "timestamp": 1609213946873,
-    "message": "Door [Big Door] successfully moved down"
+    "timestamp": 1609283999746,
+    "message": "Door [Big Door] is in an unchanged state"
+  },
+  {
+    "timestamp": 1609286472721,
+    "message": "Door [Big Door] initiated movement"
+  },
+  {
+    "timestamp": 1609286475292,
+    "message": "Door [Big Door] is in an unchanged state"
+  },
+  {
+    "timestamp": 1610340297666,
+    "message": "Door [Big Door] initiated movement"
+  },
+  {
+    "timestamp": 1610340327718,
+    "message": "Door [Big Door] is in an moving state"
   }
 ]
