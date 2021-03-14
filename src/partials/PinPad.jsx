@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Input, Col, Row } from 'reactstrap';
 import styled from 'styled-components';
 
-const NumButton = ({ value, clickHandler, colorOverride }) => {
+const NumButton = ({ value, clickHandler, colorOverride, className }) => {
 
   const [color, setColor] = useState('secondary');
   
@@ -12,6 +12,7 @@ const NumButton = ({ value, clickHandler, colorOverride }) => {
 
   return (
     <Button
+      className={className}
       color={colorOverride ? 'primary' : color}
       onMouseDown={mouseHandler}
       onMouseUp={mouseHandler}
@@ -23,23 +24,44 @@ const NumButton = ({ value, clickHandler, colorOverride }) => {
 };
 
 const StyledNumButton = styled(NumButton)`
-  width: calc(80vw / 3);
-  height: calc(80vw / 3);
+  width: calc(80vw / 4);
+  height: calc(80vw / 4);
+  margin-bottom: calc(80vw / 16);
+  font-size: 10vmin;
 
   @media (orientation: landscape) {
-    width: 10vw;
-    height: 10vw;
+    width: calc(30vw / 4);
+    height: calc(30vw / 4);
+    margin-bottom: calc(30vw / 8);
+    font-size: 6vh;
   }
 `;
 
 const PinPadWrapper = styled(Row)`
   width: 80vw;
+  height: 60vmax;
+  align-items: center;
   position: relative;
   left: 10vw;
+  top: 10vh;
+  margin-left: 0;
+  margin-right: 0;
 
   @media (orientation: landscape) {
     width: 30vw;
     left: 35vw;
+  }
+`;
+
+const ButtonRow = styled(Row)`
+  justify-content: space-around;
+`;
+
+const PinInput = styled(Input)`
+  font-size: 8vmin;
+  text-align: center;
+  
+  @media (orientation: landscape) {
   }
 `;
 
@@ -49,28 +71,28 @@ const PinPad = ({ savePin }) => {
   return (
     <>
       <PinPadWrapper>
-        <Input type='password' value={pinValue} readOnly />
+        <PinInput type='password' value={pinValue} readOnly />
         <Col>
-          <Row>
+          <ButtonRow>
             <StyledNumButton value='7' clickHandler={() => setPinValue(`${pinValue || ''}7`)} />
             <StyledNumButton value='8' clickHandler={() => setPinValue(`${pinValue || ''}8`)} />
             <StyledNumButton value='9' clickHandler={() => setPinValue(`${pinValue || ''}9`)} />
-          </Row>
-          <Row>
+          </ButtonRow>
+          <ButtonRow>
             <StyledNumButton value='4' clickHandler={() => setPinValue(`${pinValue || ''}4`)} />
             <StyledNumButton value='5' clickHandler={() => setPinValue(`${pinValue || ''}5`)} />
             <StyledNumButton value='6' clickHandler={() => setPinValue(`${pinValue || ''}6`)} />
-          </Row>
-          <Row>
+          </ButtonRow>
+          <ButtonRow>
             <StyledNumButton value='1' clickHandler={() => setPinValue(`${pinValue || ''}1`)} />
             <StyledNumButton value='2' clickHandler={() => setPinValue(`${pinValue || ''}2`)} />
             <StyledNumButton value='3' clickHandler={() => setPinValue(`${pinValue || ''}3`)} />
-          </Row>
-          <Row>
+          </ButtonRow>
+          <ButtonRow>
             <StyledNumButton value='C' clickHandler={() => setPinValue('')} />
             <StyledNumButton value='0' clickHandler={() => setPinValue(`${pinValue || ''}0`)} />
             <StyledNumButton value='➤' clickHandler={() => setPinValue(1243)} colorOverride />
-          </Row>
+          </ButtonRow>
         </Col>
       </PinPadWrapper>
     </>

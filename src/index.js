@@ -14,7 +14,7 @@ const App = () => {
   return(
     <Router basename='/'>
       <>
-        <Route exact path='/' component={Main} />
+        <Route exact path='/' render={Main} />
       </>
     </Router>
   );

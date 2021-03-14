@@ -3,11 +3,12 @@ import styled from 'styled-components';
 
 const StyledHeader = styled.header`
   height: 8vh;
-  background-color: green;
+  background-color: var(--primary);
 `;
 
-const Header = (props) => (
+const Header = ({ houseName }) => (
   <StyledHeader>
+    <h1>{houseName || 'The Portal'}</h1>
   </StyledHeader>
 );
 

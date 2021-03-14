@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'reactstrap';
 
 import { Header, PinPad } from '../partials';
+import settings from  '../../settings.json';
+
+// settings = JSON.parse(settings);
+
+console.log(settings);
 
 const Main = (props) => {
 
-  const [authenticated, setAuthenticated] = useState(false);
+  // This is temporary. Swap with JWT at some point
+  const [authenticated, setAuthenticated] = useState(true);
 
   const checkPin = async (pin) => {
     await fetch(`${window.origin}/api/v1/auth`, {
@@ -19,8 +25,6 @@ const Main = (props) => {
   return authenticated ? (
     <>
       <Header />
-      <h1>Hello, world!</h1>
-      <Button color='primary'>TEST BUTTON</Button>
     </>
   ) : (
     <PinPad />

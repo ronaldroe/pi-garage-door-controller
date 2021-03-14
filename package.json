@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "sudo pigpiod && sudo nodemon server.js",
+    "start": "pigpiod && nodemon server.js",
     "build": "webpack --mode production",
     "webwatch": "webpack --watch"
   },
