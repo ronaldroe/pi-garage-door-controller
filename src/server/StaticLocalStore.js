@@ -1,5 +1,5 @@
 const fs = require('fs');
-const isAbsPath = require(`${__dirname}/helpers`).isAbsolutePath;
+const isAbsPath = require(`${require.main.path}/src/helpers`).isAbsolutePath;
 
 /**
  * Uses static files to maintain app state and logs. 
@@ -7,10 +7,10 @@ const isAbsPath = require(`${__dirname}/helpers`).isAbsolutePath;
 class StaticLocalStore{
   
   constructor(){
-    this.settings = JSON.parse(fs.readFileSync(`${__dirname}/../settings.json`));
+    this.settings = JSON.parse(fs.readFileSync(`${require.main.path}/settings.json`));
 
-    this.statePath = isAbsPath(this.settings.state_path) ? this.settings.state_path : `${__dirname}/../${this.settings.state_path}`;
-    this.logPath = isAbsPath(this.settings.log_path) ? this.settings.log_path : `${__dirname}/../${this.settings.log_path}`;
+    this.statePath = isAbsPath(this.settings.state_path) ? this.settings.state_path : `${require.main.path}/${this.settings.state_path}`;
+    this.logPath = isAbsPath(this.settings.log_path) ? this.settings.log_path : `${require.main.path}/${this.settings.log_path}`;
 
     this.state = JSON.parse(fs.readFileSync(this.statePath));
     this.log = JSON.parse(fs.readFileSync(this.logPath));

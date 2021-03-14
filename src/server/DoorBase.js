@@ -1,10 +1,10 @@
 const gpio = require('pigpio').Gpio;
 const fs = require('fs');
 
-const settings = JSON.parse(fs.readFileSync(`${__dirname}/../settings.json`));
+const settings = JSON.parse(fs.readFileSync(`${__dirname}/../../settings.json`));
 
 const Store = require(`./${!settings.remote_data_url ? 'StaticLocalStore' : 'StaticRemoteStore'}`);
-const { sleep } = require('./helpers');
+const { sleep } = require('../helpers');
 
 /**
  * Base door object. 
@@ -112,11 +112,7 @@ class DoorBase{
    * @returns array
    */
   static getAllDoors(store){
-    let doors = store.getState().doors;
-
-    doors.forEach((door, it) => {
-      doors[it] = new DoorBase(store, door.id);
-    });
+    let doors = {doors: store.getState().doors};
 
     return doors;
   }

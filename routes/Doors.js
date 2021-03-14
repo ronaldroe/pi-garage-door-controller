@@ -2,18 +2,20 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-const settings = JSON.parse(fs.readFileSync(`${__dirname}/../settings.json`));
+const settings = JSON.parse(fs.readFileSync(`${require.main.path}/settings.json`));
 
-const Door = require(`${__dirname}/../src/DoorBase`);
-const Store = require(`${__dirname}/../src/${!settings.remote_data_url ? 'StaticLocalStore' : 'StaticRemoteStore'}`);
+const Door = require.main.require('./src/server/DoorBase');
+const Store = require.main.require(`./src/server/${!settings.remote_data_url ? 'StaticLocalStore' : 'StaticRemoteStore'}`);
 
 let store = new Store();
 
 // Endpoint to get the doors
 router.get('/doors', (req, res) => {
- res.send(Door.getAllDoors());
+
+  let doors = Door.getAllDoors(store);
+  doors.statuses = new Door(store, 0).statuses;
+
+  res.send(doors);
 });
 
-router.get('/', (req, res) => {
-  res.sendFile(__dirname + '../views/index.html');
-});
+module.exports = router;

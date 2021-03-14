@@ -5,18 +5,38 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "sudo pigpiod && nodemon server.js"
+    "start": "sudo pigpiod && sudo nodemon server.js",
+    "build": "webpack --mode production",
+    "webwatch": "webpack --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime": "^7.12.18",
     "express": "^4.17.1",
     "node-fetch": "^2.6.1",
     "pigpio": "^3.2.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
+    "reactstrap": "^8.9.0",
+    "styled-components": "^5.2.1",
     "yargs": "^16.1.0"
   },
   "devDependencies": {
-    "node-sass-chokidar": "^1.5.0"
+    "@babel/core": "^7.12.9",
+    "@babel/plugin-transform-runtime": "^7.12.17",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^4.5.0",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-node-externals": "^2.5.2"
   }
 }

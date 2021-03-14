@@ -1,7 +1,7 @@
 {
-  "db_address": "mongodb://localhost/pi-garage-controller",
   "door_move_timeout": 30000,
   "door_poll_interval": 500,
+  "root_path": "~/garage_controller/",
   "state_path": "data/state.json",
   "log_path": "data/log.json",
   "remote_data_url": false

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const Door = require('./src/DoorBase');
-const Store = require('./src/StaticLocalStore');
+const Door = require('./src/server/DoorBase');
+const Store = require('./src/server/StaticLocalStore');
 const { sleep } = require('./src/helpers');
 
 let store = new Store();
@@ -9,7 +9,7 @@ let store = new Store();
 const createDoor = doorInput => {
   let oldState = store.getState();
 
-  oldState.push(doorInput);
+  oldState.doors.push(doorInput);
 
   store.setState(oldState);
 }

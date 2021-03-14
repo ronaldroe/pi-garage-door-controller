@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-const settings = JSON.parse(fs.readFileSync(`${__dirname}/../settings.json`));
+const settings = JSON.parse(fs.readFileSync(`${require.main.path}/settings.json`));
 
-const Door = require(`${__dirname}/../src/DoorBase`);
-const Store = require(`${__dirname}/../src/${!settings.remote_data_url ? 'StaticLocalStore' : 'StaticRemoteStore'}`);
+const Door = require.main.require('./src/server/DoorBase');
+const Store = require.main.require(`./src/server/${!settings.remote_data_url ? 'StaticLocalStore' : 'StaticRemoteStore'}`);
 
 const store = new Store();
 
@@ -20,6 +20,19 @@ router.get('/name/:name', (req, res) => {
 // Update door by id
 router.put('/id/:id', (req, res) => {
 
+  const door = store.getDoorById(req.params.id);
+
+  try{
+    store.updateState(req.params.id, {
+      ...door,
+      ...req.body
+    });
+  
+    res.send(door);
+  } catch(e) {
+    res.status(500).send({error: e.message});
+    store.addLog(`Could not update door. Error: ${e.stack}`);
+  }
 });
 
 // Create door by id

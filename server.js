@@ -6,10 +6,13 @@ const fs = require('fs');
 let env = process.env;
 
 const PORT = env.PORT || 3000;
-const settings = JSON.parse(fs.readFileSync(`${__dirname}/settings.json`));
+const settings = JSON.parse(fs.readFileSync(`${require.main.path}/settings.json`));
 
-app.use(express.static(__dirname + '/views'));
-app.use(express.static(path.join(__dirname, 'public')));
+const DIST = path.join(require.main.path, 'dist');
+const WEB_INDEX = path.join(DIST, 'index.html');
+
+app.use(express.static(require.main.path + '/dist'));
+app.use(express.static(path.join(require.main.path, 'public')));
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
 });
@@ -22,27 +25,11 @@ app.options('/*', (req, res) => {
   res.send(200);
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(WEB_INDEX);
+});
+
+
 // Main page with status of all doors and controls
-// const doors = require('./routes/Doors');
-// app.use('/', );
-
-// Individual page with door status and controls
-const door = require('./routes/Door');
-app.use('/door', door);
-
-// Get door current status
-// const status = require('./routes/Status');
-// app.use('/status', status);
-
-// Move door from current state
-// const move = require('./routes/Move');
-// app.use('/move', move);
-
-// Move door if down, return state if already up
-// const up = require('./routes/Up');
-// app.use('/up', up);
-
-// Move door if up, return state if already down
-// const down = require('./routes/Down');
-// app.use('/down', down);
-
+const doors = require('./routes/Doors');
+app.use('/api/v1', doors);
